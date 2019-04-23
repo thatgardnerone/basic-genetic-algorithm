@@ -1,11 +1,12 @@
 class Brain {
  PVector[] directions;
  int step = 0;
+ float mutationRate;
  
- Brain(int size) {
+ Brain(int size, float mutationRate) {
+   this.mutationRate = mutationRate;
    directions = new PVector[size];
    randomize();
-   
  }
  
  void randomize() {
@@ -16,16 +17,14 @@ class Brain {
  }
  
  Brain clone() {
-   Brain clone = new Brain(directions.length);
+   Brain clone = new Brain(directions.length, mutationRate);
    for (int i = 0; i < directions.length; i++) {
     clone.directions[i] = directions[i].copy(); 
    }
    return clone;
  }
  
- void mutate() {
-   float mutationRate = 0.01;
-   
+ void mutate() {   
    for (int i = 1; i < directions.length; i++) {
     float rand = random(1);
     if (rand < mutationRate) {

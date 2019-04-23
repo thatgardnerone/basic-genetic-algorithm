@@ -10,8 +10,8 @@ class Dot {
  
  float fitness = 0;
  
- Dot() {
-  brain = new Brain(400);
+ Dot(float mutationRate) {
+  brain = new Brain(400, mutationRate);
    
   pos = new PVector(width/2, height - 2);
   vel = new PVector(0,0);
@@ -52,6 +52,7 @@ class Dot {
      }
      else if (dist(pos.x, pos.y, goal.location.x, goal.location.y) < 5) {
       reachedGoal = true;
+      numOnTarget++;
      }
     }
   }
@@ -67,7 +68,7 @@ class Dot {
   }
   
   Dot makeBaby() {
-   Dot baby = new Dot();
+   Dot baby = new Dot(mutationRate);
    baby.brain = brain.clone();
    return baby;
   }

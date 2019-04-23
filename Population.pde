@@ -4,11 +4,11 @@ class Population {
   int generation = 1;
   int bestDotIndex = 0;
   
-  Population(int size) {
+  Population(int size, float mutationRate) {
     dots = new Dot[size];
     
     for (int i = 0; i < size; i++) {
-     dots[i] = new Dot(); 
+     dots[i] = new Dot(mutationRate); 
     }
   }
   
@@ -20,7 +20,7 @@ class Population {
   
   void update() {
    for (int i = 0; i < dots.length; i++) {
-    dots[i].update(); 
+    dots[i].update();
    }
   }
   
@@ -36,6 +36,8 @@ class Population {
      return false; 
     }
    } 
+   
+   numOnTarget = 0;
    return true;
   }
   
@@ -96,7 +98,7 @@ class Population {
      maxIndex = i;
     }
    }
-   
+   peakFitness = max;
    bestDotIndex = maxIndex;
   }
 }
