@@ -44,17 +44,41 @@ class Dot {
  }
    
   void update() {
-    if (!dead && !reachedGoal) {
+    boolean isSearching = !dead && !reachedGoal;
+    boolean isAtWall = pos.x < 2 || pos.y < 2 || pos.x > width - 2 || pos.y > height - 2;
+    boolean isAtGoal = dist(pos.x, pos.y, goal.location.x, goal.location.y) < goal.diameter / 2;
+    boolean isAtBarrier = checkForBarrierCollision();
+    
+    if (isSearching) {
      move();
        
-     if (pos.x < 2 || pos.y < 2 || pos.x > width - 2 || pos.y > height - 2) {
+     if (isAtWall) {
       dead = true; 
      }
-     else if (dist(pos.x, pos.y, goal.location.x, goal.location.y) < 5) {
+     else if (isAtGoal) {
       reachedGoal = true;
       numOnTarget++;
      }
+     else if (isAtBarrier) {
+       dead = true;
+     }
     }
+  }
+  
+  boolean checkForBarrierCollision() {
+    for (Barrier barrier : barriers) {
+      // Remember that the y-axis increases going down
+      boolean isGLeft   = pos.x > barrier.x - 2;
+      boolean isLRight  = pos.x < barrier.x + barrier.w + 2;
+      boolean isGBottom = pos.y < barrier.y + barrier.h + 2;
+      boolean isLTop    = pos.y > barrier.y - 2;
+      
+      boolean isTouchingWall = isGLeft && isLRight && isGBottom && isLTop;
+      if (isTouchingWall) {
+        return true; 
+      }
+    }
+    return false;
   }
   
   void calculateFitness() {

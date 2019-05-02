@@ -1,15 +1,18 @@
 class Population {
   Dot[] dots;
   float fitnessSum;
-  int generation = 1;
-  int bestDotIndex = 0;
-  
+  int generation;
+  int bestDotIndex;
+ 
   Population(int size, float mutationRate) {
     dots = new Dot[size];
     
     for (int i = 0; i < size; i++) {
      dots[i] = new Dot(mutationRate); 
     }
+    
+    generation = 1;
+    bestDotIndex = 0;
   }
   
   void show() {

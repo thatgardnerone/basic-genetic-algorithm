@@ -1,5 +1,6 @@
 Population test;
 Goal goal;
+ArrayList<Barrier> barriers;
 
 int numOnTarget;
 float peakFitness;
@@ -14,6 +15,11 @@ void setup() {
   
   test = new Population(populationSize, mutationRate);
   goal = new Goal();
+  barriers = new ArrayList<Barrier>();
+  
+  
+  barriers.add(new Barrier(600, 0, 200)); 
+  barriers.add(new Barrier(600, width - 600, 400));
 }
 
 void draw() {
@@ -22,11 +28,13 @@ void draw() {
   text("Population size: " + populationSize, 10, 40);
   text("Mutation rate: " + (mutationRate * 100) + "%", 10, 60);
   text("Number on target: " + numOnTarget, 10, 80);
-  
   text("Peak fitness: " + peakFitness, 10, 100);
   
-  
   goal.show();
+  
+  for (Barrier barrier : barriers) {
+    barrier.show(); 
+  }
   
   if (test.allDotsDead()) {
    // genetic algorithm
